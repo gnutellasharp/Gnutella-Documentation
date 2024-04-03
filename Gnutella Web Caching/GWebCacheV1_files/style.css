@@ -1,0 +1,16 @@
+BODY,P,TD,TH  {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+}
+
+H1 {
+	font-size: 16pt;
+}
+
+H2 {
+	font-size: 14pt;
+}
+
+H3 {
+	font-size: 12pt;
+}

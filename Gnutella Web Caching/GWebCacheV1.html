@@ -1,0 +1,471 @@
+
+<!-- saved from url=(0054)http://www.gnucleus.org/gwebcache/specs.html#ChangeLog -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Gnutella Web Caching System</title>
+<link rel="STYLESHEET" type="text/css" href="./GWebCacheV1_files/style.css">
+<meta id="ConnectiveDocSignExtentionInstalled" name="ConnectiveDocSignExtentionInstalled" data-extension-version="1.0.6"></head>
+
+<body>
+
+<a name="top"></a>
+<h1>Gnutella Web Caching System</h1>
+
+<p>
+<small>Copyright (c) 2003 <a href="mailto:haukex@zero-g.net">Hauke Dämpfling</a>,
+<a href="http://www.gnucleus.org/gwebcache/specs.html#ChangeLog">version 1.3.1</a></small><small> / 6.7.2002, <a href="http://www.gnucleus.com/gwebcache/">http://www.gnucleus.com/gwebcache/</a></small>
+</p>
+
+<h2>Table of Contents</h2>
+
+<ol>
+  <li><a href="http://www.gnucleus.org/gwebcache/specs.html#Introduction">Introduction</a>
+  </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#Interface">Client-Script Interface</a>
+    <ol>
+      <li><a href="http://www.gnucleus.org/gwebcache/specs.html#HostfileRequest">"Hostfile" Request</a>
+      </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#UrlfileRequest">"Urlfile" Request</a>
+      </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#UpdateRequest">Update Request</a>
+      </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#PingRequest">Ping Request</a>
+      </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#OtherRequests">Other Requests / Extensions</a>
+      </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#StatisticsRequest">Statistics</a>
+      </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#ClientVersionInformation">Client Version Information</a>
+    </li></ol>
+
+  </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#Client-Side">Client-Side Behavior</a>
+    <ol>
+      <li><a href="http://www.gnucleus.org/gwebcache/specs.html#ClientRequests">Requests</a>
+    </li></ol>
+
+  </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#Server-Side">Server-Side Behavior</a>
+    <ol>
+      <li><a href="http://www.gnucleus.org/gwebcache/specs.html#Security">Security</a>
+    </li></ol>
+
+  </li><li><a href="http://www.gnucleus.org/gwebcache/specs.html#ChangeLog">Change Log</a>
+</li></ol>
+
+<h2><a name="Introduction">1. Introduction</a></h2>
+
+<p>
+<small>(ripped with many thanks from <a href="http://www.infoanarchy.org/">Info
+Anarchy</a>'s summary)</small><br>
+The goal of the "Gnutella Web Caching System" (the "cache")
+is to eliminate the "Initial Connection Point Problem" of a fully
+decentralized network: Where do I find a first host to connect to? The cache is
+a program (script) placed on any web server that stores IP addresses of hosts in
+the Gnutella network and URLs of other caches. Gnutella clients connect to a
+cache in their list randomly. They send and receive IP addresses and URLs from
+the cache. With the randomized connection it is to be assured that all caches
+eventually learn about each other, and that all caches have relatively fresh
+hosts and URLs. The concept is independent from Gnutella clients.
+</p>
+
+<p>
+These specifications exist to define the interface between a Gnutella client and
+a web cache script. They also include many descriptions as to how a client and a
+cache script should behave. While these descriptions are not necessarily set in
+stone, they are designed to provide optimal interaction between clients and
+scripts and should therefore be implemented. <i>All</i> developers should take
+care that the interactions as described here are followed and should never
+release scripts or clients without proper in-house testing first, as to not
+disrupt the integrity of the network.
+</p>
+
+<p>
+<b>Client Developers:</b> The cache system gains its strength through having
+many caches spread on many web servers. If you include the GWebCache
+functionality in your client, please make sure to also advertise the GWebCache
+scripts that are available!
+</p>
+
+<p>
+<a href="http://www.gnucleus.org/gwebcache/specs.html#top">^ Top ^</a>
+</p>
+
+<h2><a name="Interface">2. Client-Script Interface</a></h2>
+
+<h3><a name="HostfileRequest">2.1. "Hostfile" Request</a></h3>
+
+<table border="0">
+  <tbody><tr>
+    <td colspan="2">The client wishes to receive a list of Gnutella nodes.</td>
+  </tr>
+  <tr>
+    <td valign="top"><b>Request:</b></td>
+    <td valign="top"><code>URL?hostfile=1</code></td>
+  </tr>
+  <tr>
+    <td valign="top"><b>Response:</b></td>
+    <td valign="top">A return-separated list of Gnutella nodes in the format
+      "ip:port" (numerical IPs only). The list should not be very long
+      (around 20 nodes)&nbsp;and should contain only the newest entries.
+      (Returning an empty list is also possible in case the cache does not have
+      any hosts stored yet.)<br>
+      <b>OR</b><br>
+      A redirect (HTTP code 3xx) response, indicating that the client needs to
+      send another HTTP GET request for the file. Clients must support this
+      method. Luckily, many standard HTTP libraries automatically follow
+      redirects. When a client follows the redirect, it should receive a list as
+      described above.<br>
+      <b>OR</b><br>
+      The string "<code>ERROR</code>", possibly followed by more
+      specific error information.</td>
+  </tr>
+</tbody></table>
+<h3><a name="UrlfileRequest">2.2. "Urlfile" Request</a></h3>
+
+<p>
+<b>Important Note:</b> In all of the GWebCache system, URLs must always begin
+with http:// , in requests as well as responses.
+</p>
+
+<table border="0">
+  <tbody><tr>
+    <td colspan="2">The client wishes to receive a list of alternate web cache
+      URLs.</td>
+  </tr>
+  <tr>
+    <td valign="top"><b>Request:</b></td>
+    <td valign="top"><code>URL?urlfile=1</code></td>
+  </tr>
+  <tr>
+    <td valign="top"><b>Response:</b></td>
+    <td valign="top">A return-separated list of alternate web caches' URLs. The
+      list should not be very long (around 10-20 URLs)&nbsp;and should contain
+      only the newest entries. (Returning an empty list is also possible in case
+      the cache does not have any URLs stored yet.)<br>
+      <b>OR</b><br>
+      A redirect (HTTP code 3xx) response, indicating that the client needs to
+      send another HTTP GET request for the file. Clients must support this
+      method. Luckily, many standard HTTP libraries automatically follow
+      redirects. When a client follows the redirect, it should receive a list as
+      described above.<br>
+      <b>OR</b><br>
+      The string "<code>ERROR</code>", possibly followed by more
+      specific error information.</td>
+  </tr>
+</tbody></table>
+<h3><a name="UpdateRequest">2.3. Update Request</a></h3>
+
+<table border="0">
+  <tbody><tr>
+    <td colspan="2">The client wishes to update IP addresses and/or alternate
+      web cache URLs to a cache.</td>
+  </tr>
+  <tr>
+    <td valign="Top"><b>Request:</b></td>
+    <td valign="top"><code>URL?ip=XXX.XXX.XXX.XXX:PORT</code> <i>OR</i><br>
+      <code>URL?url=http://WWW.SOMEHOST.COM/PATH/TO/SCRIPT</code> <i>OR</i><br>
+      <code>URL?ip=XXX.XXX.XXX.XXX:PORT&amp;url=http://WWW.SOMEHOST.COM/PATH/TO/SCRIPT<br>
+      </code>Reminder: Requests need to be URL-Encoded - see
+      "Requests" in "Client-Side Behavior"<br>
+      For compatibility issues, scripts should also accept <code>ip1</code>
+      instead of <code>ip</code> and <code>url1</code> instead of <code>url</code>.
+      Once older clients that still use <code>ip1</code> and <code>url1</code>
+      are phased out this will no longer be necessary.</td>
+  </tr>
+  <tr>
+    <td valign="top"><b>Response:</b></td>
+    <td valign="top">First line must be: either "<code>OK</code>" or
+      "<code>ERROR</code>", or "<code>ERROR: Message</code>".<br>
+      The following lines can be used by the script for further messages, such
+      as information or warnings (can be ignored by the client).</td>
+  </tr>
+</tbody></table>
+<h3><a name="PingRequest">2.4. Ping Request</a></h3>
+
+<table border="0">
+  <tbody><tr>
+    <td colspan="2">A ping/pong scheme to verify that caches are active.</td>
+  </tr>
+  <tr>
+    <td valign="top"><b>Request:</b></td>
+    <td valign="top"><code>URL?ping=1</code></td>
+  </tr>
+  <tr>
+    <td valign="top"><b>Response:</b></td>
+    <td valign="top">The first four characters of the response are: "<code>PONG</code>",
+      followed by a version number string (can be omitted).</td>
+  </tr>
+</tbody></table>
+<h3><a name="OtherRequests">2.5. Other Requests / Extensions</a></h3>
+
+<p>
+Other requests that a script can implement include HTML information pages,
+statistics, etc. For example, if no request is sent to the script (i.e. the
+script is simply browsed to), it could display a page informing the user that
+"this is a Gnutella web cache" or something similar. Or, one could
+include an extra request, "<code>URL?stats=1</code>", which could
+display a HTML page with some statistics. In general, script authors can include
+any extensions they wish, as long as the interaction described above remains
+unchanged. The same thing is true for clients.
+</p>
+
+<h3><a name="StatisticsRequest">2.6. Statistics</a></h3>
+
+<p>
+Statistics are regularly collected on all known GWebCache scripts. If the author
+of a script would like to make statistics from their script available, the
+following request should be implemented.
+</p>
+
+<table border="0">
+  <tbody><tr>
+    <td valign="top"><b>Request:</b></td>
+    <td valign="top"><code>URL?statfile=1</code></td>
+  </tr>
+  <tr>
+    <td valign="top"><b>Response:</b></td>
+    <td valign="top">Line 1: Total number of requests received.<br>
+      Line 2: Requests received in the last full hour.<br>
+      Line 3: Update requests received in the last full hour. (<i>optional but
+      strongly encouraged</i>)</td>
+  </tr>
+</tbody></table>
+<h3><a name="ClientVersionInformation">2.7. Client Version Information</a></h3>
+
+<p>
+In order to collect statistics on client versions and identify possible problems
+with certain clients, clients should send along two extra parameters with every
+request: "<code>client</code>", which is the 4-character vendor
+identifier that is also used in query hits, and "<code>version</code>",
+which is the version number of that client.
+</p>
+
+<p>
+<b>Examples:</b><br>
+<code>URL?client=GNUC&amp;version=1.8.4.0&amp;hostfile=1<br>
+URL?ip=XXX.XXX.XXX.XXX&amp;client=BEAR&amp;version=2.6.3<br>
+URL?client=LIME&amp;version=2.4&amp;ping=1</code>
+</p>
+
+<p>
+<a href="http://www.gnucleus.org/gwebcache/specs.html#top">^ Top ^</a>
+</p>
+
+<h2><a name="Client-Side">3. Client-Side Behavior</a></h2>
+
+<p>
+Clients generally keep an internal cache of the IP addresses of known Gnutella
+nodes.
+</p>
+
+<p>
+In addition to this list, they should also keep an internal list of web caches.
+Clients should keep track of whether the URLs in their caches are functional or
+not. The major issue is that when clients send Update requests to caches, they
+must send only the URLs of functional caches.
+</p>
+
+<p>
+Specifically, "bad caches" are those that return:
+</p>
+
+<ul>
+  <li>nothing - those that cannot be accessed at all (timeouts, invalid
+    hostnames, etc.)
+  </li><li>HTTP error codes (400-599)
+  </li><li>responses that cannot be parsed by a client
+  </li><li><code>ERROR</code> responses (more than a few times in a row)
+  </li><li>many non-functional hosts or URLs (<i>optional</i>)
+</li></ul>
+
+<p>
+When making requests, a client should pick a cache from its internal list - a
+different one every time.
+</p>
+
+<p>
+A client should send a Hostfile request whenever it needs hosts to connect to.
+</p>
+
+<p>
+A client should send a Urlfile request to build its internal list of caches
+(such as once on start up).
+</p>
+
+<p>
+Clients should only send updates if they accept incoming connections - i.e.
+clients behind firewalls should not send updates. Also, if supported by clients,
+only Ultrapeers/Supernodes should send updates. After a client has been up for
+an hour, it should begin sending an Update request periodically - every 60
+minutes. It sends its own IP address and port in the "<code>ip</code>"
+parameter and a the URL of a random cache in the "<code>url</code>"
+parameter. Clients should only submit the URLs of caches that they know are
+functional!
+</p>
+
+<p>
+The Ping request can and should be used to verify that a URL is valid and that a
+script is functioning correctly. Note: Some scripts, when installed by users on
+their servers, may return <code>PONG</code>s correctly but fail on other
+requests (mostly due to file access errors and the like). However, if a script
+responds correctly to an Update request, it is most likely working well. So if a
+script responds correctly to <i>both</i> a Ping and an Update correctly it can
+be assumed to be functional.
+</p>
+
+<h3><a name="ClientRequests">3.1. Requests</a></h3>
+
+<p>
+Interaction with the web server and cache is a series of HTTP GET requests and
+responses. Support for POST requests is optional and not necessary. In these
+specifications, notation <code>URL?query</code> indicates the URLs of a script
+with the attached query string, where "<code>query</code>" is a series
+of <code>name=value</code> pairs joined by "<code>&amp;</code>"s.
+These name/value pairs must be "URL-Encoded", as is described (for
+example) <a href="http://www.php.net/manual/en/function.rawurlencode.php">here</a>,
+or in <a href="http://www.w3.org/Addressing/rfc1738.txt">RFC1738</a>. Due to the
+differences between operating systems, responses can be LF, CRLF, or
+CR-terminated, but should be of Content-Type "text/*". Responses are
+interpreted line-by-line.
+</p>
+
+<p>
+<i>Tip</i>: GET requests are easier than they may sound above: the query (the
+information/request you are sending the script) is simply part of the URL. For
+example, let's say the the request is: <code>URL?ip=192.168.0.1:123</code>, you
+will simply have to open the following URL using whatever web functions your
+programming language provides:<br>
+<code>http://www.somehost.com/path/to/script.php?ip=192.168.0.1:123</code><br>
+The only tricky parts are: one, the "URL-Encoding" - your best bet is
+to go look for such functions, they have often already been written by someone
+and maybe already are part of your libraries. Second, interpreting the
+end-of-line characters in the responses - again, often there are already
+functions in the libraries that you can use to read responses line-by-line,
+taking the end-of-line characters into account.
+</p>
+
+<p>
+<a href="http://www.gnucleus.org/gwebcache/specs.html#top">^ Top ^</a>
+</p>
+
+<h2><a name="Server-Side">4. Server-Side (Script) Behavior</a></h2>
+
+<p>
+Scripts accept requests by clients through the standard HTTP GET mechanism and
+should respond according to these specifications, otherwise they risk being
+marked as invalid by a client. Responses should be of Content-Type
+"text/*" (i.e. any content-type that is text - such as text/plain or
+text/html).
+</p>
+
+<p>
+An <code>OK</code> message usually means that everything went well and the
+script executed normally.
+</p>
+
+<p>
+An <code>ERROR</code> message usually indicates some form of fatal error because
+of which the script could not do what is is supposed to. Since clients will
+(should) remove scripts that return error messages often, it is advised to
+return <code>ERROR</code>s only when the script is expected to be down for a
+while (such as, the script will be or has been removed from server, server
+overload, file errors, etc.).
+</p>
+
+<p>
+In other words, things such as the submission of an invalid IP and/or URL, or
+even blocking clients according to the security measures described below, should
+more likely be answered by an <code>OK</code> followed by a warning message on
+the next line(s) instead of an <code>ERROR</code>. If this seems
+counter-intuitive, think of it this way: since clients will most likely handle
+the responses of scripts silently, you can think of an <code>ERROR</code>
+response to mean that the script is asking to be removed from the client's
+internal list of caches.
+</p>
+
+<p>
+Scripts should only return a few (around 10-20) and only the newest Hosts and
+URLs. Therefore they only need to keep that many entries in their lists and can
+flush older entries as newer ones arrive. Keeping such a relatively small number
+of entries is essential to keeping all the information in all caches fresh.
+</p>
+
+<h3><a name="Security">4.1. Security</a></h3>
+
+<p>
+The most obvious attack of the cache system is attempting to submit invalid IP
+addresses and URLs. Luckily, the system is very error-tolerant: bad IP addresses
+and URLs will not break the system, only cause slight slowdowns because clients
+will have to try more URLs before they get a working IP. Also, because scripts
+are constantly receiving updates from many clients, bad entries in the caches
+will be flushed out within a short period of time.
+</p>
+
+<p>
+Caches should implement the following simple security feature: Once a client has
+made an Update request, do not accept any more Update requests from that
+client's IP address for another ~55 minutes (according to the update frequency
+of the clients - 60 minutes). That way, people attempting to submit bad entries
+to a cache will only be able to submit once an hour, while their entries will
+only last in the caches for a fraction of an hour because other clients are
+constantly submitting valid IPs and URLs.
+</p>
+
+<p>
+Note: Scripts should still accept Hostfile and Urlfile requests, since these do
+not change the data that the cache is storing.
+</p>
+
+<p>
+Scripts can check the validity of the submitted IP address by verifying that it
+is the same as the one that is making the request - in the Apache CGI
+environment (and probably other servers' environments too) this information is
+passed in the "<code>REMOTE_ADDR</code>" environment variable.
+</p>
+
+<p>
+Scripts may whish to check the validity of submitted URLs by sending a Ping
+request, but this is not required.
+</p>
+
+<p>
+<a href="http://www.gnucleus.org/gwebcache/specs.html#top">^ Top ^</a>
+</p>
+
+<h2><a name="ChangeLog">5. Change Log</a></h2>
+
+<p>
+<b>v1.3.1<br>
+</b>- Added TOC
+</p>
+
+<p>
+<b>v1.3</b><br>
+- Added client version extension
+</p>
+
+<p>
+<b>v1.2</b><br>
+- <b><font color="red">Changed Update Request format</font></b><br>
+- Updated Statistics response<br>
+- Reorganized document<br>
+- Added security information
+</p>
+
+<p>
+<b>v1.1</b><br>
+- Suggested client and server-side behavior more specific.<br>
+- Added suggested statistics response.
+</p>
+
+<p>
+<b>v1.0</b><br>
+- First release.
+</p>
+
+<p>
+<a href="http://www.gnucleus.org/gwebcache/specs.html#top">^ Top ^</a>
+</p>
+
+<p>
+<a href="http://www.gnucleus.org/gwebcache/index.html"><b>GWebCache Home</b></a><br>
+<small>See also: <a href="http://www.gnucleus.com/" target="_top">http://www.gnucleus.com/</a><br>
+Copyright (c) 2003 <a href="mailto:haukex@zero-g.net">Hauke Dämpfling</a>.
+License Terms: <a href="http://www.gnucleus.org/gwebcache/doc_license.txt">FDL</a>.</small>
+</p>
+
+
+
+
+</body></html>
