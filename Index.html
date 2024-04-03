@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gnutella Documentation</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
+            <div class="container-xl">
+                <a class="navbar-brand">GnutellaSharp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="#">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              GWebCache
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Version 1</a></li>
+                              <li><a class="dropdown-item" href="#">Version 2</a></li>  
+                            </ul>
+                          </li>
+                      </ul>
+                </div>
+            </div>
+            </nav>
+        <div class="container-xl py-4">
+            <div class="title mb-5">
+            <h1>Gnutella Documentation</h1>
+            <p>A hub for all documentation relating to everyones favourite sweet P2P protocol.</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">What the heck is this?</h2>
+            <p>
+                While trying to make sense of gnutella for a hobby of mine it became increasingly more appaerant that this is early internet days stuff.
+                Information all over the place in dodgy looking sites which more often then not lead to other information no longer available.
+                To save you all a trip over to the internet archive to scoure for everything yourself I've done the hard work for you. 
+                This is by no means an exhaustive effort so by all means do add documentation trough PR's.
+            </p>
+        </div>
+        <div class="section-2">
+            <h2 class="section-title">What I've got on offer</h2>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      GWebCache
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        The goal of the "Gnutella Web Caching System" (the "cache")
+                        is to eliminate the "Initial Connection Point Problem" of a fully
+                        decentralized network: Where do I find a first host to connect to? The cache is
+                        a program (script) placed on any web server that stores IP addresses of hosts in
+                        the Gnutella network and URLs of other caches. Gnutella clients connect to a
+                        cache in their list randomly. They send and receive IP addresses and URLs from
+                        the cache. With the randomized connection it is to be assured that all caches
+                        eventually learn about each other, and that all caches have relatively fresh
+                        hosts and URLs. The concept is independent from Gnutella clients.
+                    </div>
+                  </div>
+             </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+</html>
