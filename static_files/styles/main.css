@@ -14,5 +14,11 @@
 body{ 
     min-height: 100vh; 
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows:1fr auto;
+  }
+  
+  @media(min-width:576px){
+    .gnutelladocs .w-sm-auto{
+        width:auto !important;
+    }
   }

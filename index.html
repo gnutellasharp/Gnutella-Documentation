@@ -12,7 +12,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="static_files/script/routing.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    </head>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+      </head>
     <body class="gnutelladocs" >
       <header class="fixed-top">
           <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
@@ -31,8 +33,8 @@
                               GWebCache
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">Version 1</a></li>
-                              <li><a class="dropdown-item" href="#">Version 2</a></li>  
+                              <li><a class="dropdown-item" href="?html_view=Gnutella_Web_Caching/GWebCacheV1.html">Version 1</a></li>
+                              <li><a class="dropdown-item" href="?html_view=Gnutella_Web_Caching/GWebCacheV2.html">Version 2</a></li>  
                             </ul>
                           </li>
                           <li class="nav-item d-lg-none">
@@ -48,68 +50,15 @@
             </div>
           </nav>
         </header>
-        <main class="my-5" id="viewer">
-        <div class="container-xl py-4">
-        <div class="title mb-6">
-            <h1>Gnutella Documentation</h1>
-            <p class="fw-medium fs-5 fst-italic">A hub for all documentation relating to everyones favourite sweet P2P protocol.</p>
-        </div>
-        <div class="section d-flex flex-column gap-3 mb-3">
-            <h2 class="section-title">What the heck is this?</h2>
-            <p>
-               While trying to make sense of Gnutella for a hobby of mine, it became increasingly apparent that this is early internet-era stuff.
-               Information is scattered across dodgy-looking sites, which more often than not lead to other information no longer available.
-               To save you all a trip over to the Internet Archive to scour for everything yourself, I've done the hard work for you.
-               This is by no means an exhaustive effort, so by all means, do add documentation through PRs (Pull Requests).
-            </p>
-        </div>
-        <div class="section d-flex flex-column gap-3">
-            <h2 class="section-title">What I've got on offer</h2>
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                  <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#GWebCache" aria-expanded="true" aria-controls="GWebCache">
-                      GWebCache
-                    </button>
-                  </h2>
-                  <div id="GWebCache" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                      <p>
-                        A common pitfall in every P2P application is finding an initial accesspoint.
-                      Once connected to the network it's quite self regulating but you do need the initial node.  
-                      A Gnutella Web Cache (abbreviated as GWebCache) tries to solve this problem.
-                      The GWebCache system is as the name implies a register of recent Gnutella Nodes and other web caches.
-                      This enables you to find an initial connection by querying one of these caches.
-                    </p>
-                      <p>
-                        I've come across two versions of the specifications for web caches.
-                         While most of the web caches I found seem to adhere to the second version, there are still a couple of survivors using the first version.
-                         Additionally, I've compiled a list of functioning web caches as of the time of creating this site.
-                      </p>
-                      <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
-                          <span>Version 1 specification</span>
-                          <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-outline-dark" data-pdf="Gnutella_Web_Caching/GWebCacheV1.html">Pdf</button>
-                            <button type="button" class="btn btn-outline-dark">Html</button>
-                          </div>
-                        </li>                       
-                        <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
-                          <span>Version 2 specification</span>
-                          <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-outline-dark" data-pdf="Gnutella_Web_Caching/GWebCacheV2.html">Pdf</button>
-                            <button type="button" class="btn btn-outline-dark">Html</button>
-                          </div>
-                        </li>
-                        <li class="list-group-item"><a href="#" class="link-dark fw-medium">List of Gwebcaches</a></li>
-                      </ul>
-                    </div>
-                  </div>
-             </div>
+        <main class="my-5" >
+          <div class="container-xl py-4" id="viewer">
+          <div class="h-100 d-flex justify-content-center align-items-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
             </div>
+          </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-      </main>
+        </main>
       <footer class="bg-dark bg-dark mt-auto">
         <div class="align-items-center container-xl text-white gap-3 d-flex py-2">
           <span>GnutellaSharp</span>
