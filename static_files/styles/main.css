@@ -1,0 +1,12 @@
+.gnutelladocs .accordion-button:not(.collapsed){
+    background: var(--bs-dark-bg-subtle);
+}
+
+.gnutelladocs .accordion-button:focus{
+    box-shadow: none !important;
+}
+
+.logo img{
+    height:auto;
+    width: 2rem;
+}
