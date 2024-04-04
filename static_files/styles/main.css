@@ -15,6 +15,7 @@ body{
     min-height: 100vh; 
     display: grid;
     grid-template-rows:1fr auto;
+    word-break: break-word;
   }
   
   @media(min-width:576px){
