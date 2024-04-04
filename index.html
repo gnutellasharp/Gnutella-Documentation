@@ -9,9 +9,11 @@
         <link rel="icon" type="image/png" sizes="16x16" href="static_files/images/favicon-16x16.png">
         <link rel="manifest" href="static_files/site.webmanifest">
         <link href="static_files/styles/main.css" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="static_files/script/routing.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
-    <body class="gnutelladocs">
+    <body class="gnutelladocs" >
       <header class="fixed-top">
           <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
             <div class="container-xl">
@@ -46,7 +48,7 @@
             </div>
           </nav>
         </header>
-        <main class="my-5">
+        <main class="my-5" id="viewer">
         <div class="container-xl py-4">
         <div class="title mb-6">
             <h1>Gnutella Documentation</h1>
@@ -85,8 +87,20 @@
                          Additionally, I've compiled a list of functioning web caches as of the time of creating this site.
                       </p>
                       <ul class="list-group">
-                        <li class="list-group-item"><a href="Gnutella_Web_Caching/GWebCacheV1.html" class="link-dark fw-medium">Version 1 specification</a></li>
-                        <li class="list-group-item"><a href="Gnutella_Web_Caching/GWebCacheV2.html" class="link-dark fw-medium">Version 2 specification</a></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
+                          <span>Version 1 specification</span>
+                          <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-dark" data-pdf="Gnutella_Web_Caching/GWebCacheV1.html">Pdf</button>
+                            <button type="button" class="btn btn-outline-dark">Html</button>
+                          </div>
+                        </li>                       
+                        <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
+                          <span>Version 2 specification</span>
+                          <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-dark" data-pdf="Gnutella_Web_Caching/GWebCacheV2.html">Pdf</button>
+                            <button type="button" class="btn btn-outline-dark">Html</button>
+                          </div>
+                        </li>
                         <li class="list-group-item"><a href="#" class="link-dark fw-medium">List of Gwebcaches</a></li>
                       </ul>
                     </div>
