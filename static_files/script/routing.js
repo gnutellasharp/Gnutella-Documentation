@@ -12,10 +12,7 @@ function ViewerInitialization(){
             shadowRoot.innerHTML =res;
         });
     }else{
-        var isLocalhost = window.location.host.includes("127.0.0.1") || window.location.host.includes("localhost");
-        var path = isLocalhost === true? "main.html" : "Gnutella-Documentation/main.html" 
-
-        fetch(path).then(x=>x.text()).then(res=> {
+        fetch("main.html").then(x=>x.text()).then(res=> {
             const container = document.getElementById("viewer");
             container.innerHTML =res;
             PdfButtonInitialization();
