@@ -32,39 +32,47 @@
             </div>
             </nav>
         <div class="container-xl py-4">
-            <div class="title mb-5">
+        <div class="title mb-6">
             <h1>Gnutella Documentation</h1>
-            <p>A hub for all documentation relating to everyones favourite sweet P2P protocol.</p>
+            <p class="fw-medium fs-5 fst-italic">A hub for all documentation relating to everyones favourite sweet P2P protocol.</p>
         </div>
-        <div class="section">
+        <div class="section d-flex flex-column gap-3 mb-3">
             <h2 class="section-title">What the heck is this?</h2>
             <p>
-                While trying to make sense of gnutella for a hobby of mine it became increasingly more appaerant that this is early internet days stuff.
-                Information all over the place in dodgy looking sites which more often then not lead to other information no longer available.
-                To save you all a trip over to the internet archive to scoure for everything yourself I've done the hard work for you. 
-                This is by no means an exhaustive effort so by all means do add documentation trough PR's.
+               While trying to make sense of Gnutella for a hobby of mine, it became increasingly apparent that this is early internet-era stuff.
+               Information is scattered across dodgy-looking sites, which more often than not lead to other information no longer available.
+               To save you all a trip over to the Internet Archive to scour for everything yourself, I've done the hard work for you.
+               This is by no means an exhaustive effort, so by all means, do add documentation through PRs (Pull Requests).
             </p>
         </div>
-        <div class="section-2">
+        <div class="section d-flex flex-column gap-3">
             <h2 class="section-title">What I've got on offer</h2>
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#GWebCache" aria-expanded="true" aria-controls="GWebCache">
                       GWebCache
                     </button>
                   </h2>
-                  <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                  <div id="GWebCache" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        The goal of the "Gnutella Web Caching System" (the "cache")
-                        is to eliminate the "Initial Connection Point Problem" of a fully
-                        decentralized network: Where do I find a first host to connect to? The cache is
-                        a program (script) placed on any web server that stores IP addresses of hosts in
-                        the Gnutella network and URLs of other caches. Gnutella clients connect to a
-                        cache in their list randomly. They send and receive IP addresses and URLs from
-                        the cache. With the randomized connection it is to be assured that all caches
-                        eventually learn about each other, and that all caches have relatively fresh
-                        hosts and URLs. The concept is independent from Gnutella clients.
+                      <p>
+                        A common pitfall in every P2P application is finding an initial accesspoint.
+                      Once connected to the network it's quite self regulating but you do need the initial node.  
+                      A Gnutella Web Cache (abbreviated as GWebCache) tries to solve this problem.
+                      The GWebCache system is as the name implies a register of recent Gnutella Nodes and other web caches.
+                      This enables you to find an initial connection by querying one of these caches.
+                    </p>
+                      <p>
+                        I've come across two versions of the specifications for web caches.
+                         While most of the web caches I found seem to adhere to the second version, there are still a couple of survivors using the first version.
+                         Additionally, I've compiled a list of functioning web caches as of the time of creating this site.
+                      </p>
+                      <ul class="list-group">
+                        <li class="list-group-item"><a href="#" class="link-dark fw-medium">Version 1 specification</a></li>
+                        <li class="list-group-item"><a href="#" class="link-dark fw-medium">Version 2 specification</a></li>
+                        <li class="list-group-item"><a href="#" class="link-dark fw-medium">List of Gwebcaches</a></li>
+                      </ul>
                     </div>
                   </div>
              </div>
