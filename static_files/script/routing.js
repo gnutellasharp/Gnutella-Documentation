@@ -25,10 +25,18 @@ function PdfButtonInitialization(){
         var linkToPdf = btn.dataset.pdf;
         if(linkToPdf !== '' && linkToPdf !== null){
             btn.addEventListener("click",()=>{
+
                 fetch(linkToPdf).then(x=>x.text()).then(res=> {
+                    var options = {
+                        margin:10,
+                        html2canvas: { scale: 1, scrollY: 0 }
+                    }
+                    
+                    //get pdf name
                     var pathStrings = linkToPdf.split("/");
                     var fileName = `${pathStrings[pathStrings.length - 1]}.pdf`;
-                    html2pdf().from(res).save(fileName);
+                    html2pdf().from(res).set(options).save(fileName);
+                    viewer.shadowRoot.innerHTML = "";
                 })
             })    
         }
